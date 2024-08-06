@@ -1,0 +1,195 @@
+:root {
+    --background-color: white;
+    --header-background-color: #f4f4f4;
+    --header-font-size: 1em;
+    --header-margin: 10px 0;
+    --calendar-padding: 10px 20px 20px 20px;
+    --calendar-gap: 10px;
+    --day-background-color: #fff;
+    --day-border-color: #ccc;
+    --day-padding: 10px;
+    --day-box-shadow: 2px 2px 5px #0000001a;
+    --header-font-weight: bold;
+    --header-border-bottom: 1px solid #ccc;
+    --header-margin-bottom: 10px;
+    --header-padding-bottom: 5px;
+    --event-title-font-weight: bold;
+    --event-description-margin-top: 5px;
+    --list-item-padding: 1px 3px 1px 3px;
+    --list-item-border: 2px solid #ccc;
+    --list-item-border-radius: 5px;
+    --list-item-background-color: #b1dfec;
+    --nav-button-background-color: #007bff;
+    --nav-button-hover-background-color: #0056b3;
+    --nav-button-color: white;
+    --nav-button-padding: 10px;
+    --nav-button-font-size: 1em;
+    --nav-button-margin-left: 5px;
+    --nav-button-border-radius: 5px;
+    --task-list-background-color: #e0e0e0;
+    --task-list-padding: 10px;
+    --task-item-padding: 10px;
+    --task-item-border: 1px solid #ccc;
+    --task-item-border-radius: 5px;
+    --task-item-background-color: #d1ecf1;
+
+    --add-button-font-size: 2.5vh;
+    --arrow-font-size: 2vh;
+    --cur-button-font-size: 2vh;
+    --h1-font-size: 4vh;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: var(--background-color);
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    font-size: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+}
+
+.content-container h1, .content-container h2, .content-container h3, .content-container h4 {
+    margin: auto 1%;
+    font-weight: lighter;
+}
+
+.content-container h1 {
+    font-size: var(--h1-font-size);
+}
+
+.calendar-wrapper ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.calendar-wrapper ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+
+.navigator {
+    display: flex;
+    height: 8%;
+}
+
+.navigator-buttons {
+    height: 50%;
+    margin: auto 1%;
+    margin-left: auto;
+    display: flex;
+}
+
+#add-button {
+    margin-right: 10px;
+    font-size: var(--add-button-font-size);
+}
+
+#prev-button, #next-button {
+    font-size: var(--arrow-font-size);
+}
+
+#cur-button {
+    font-size: var(--cur-button-font-size);
+}
+
+.nav-button {
+    box-shadow: var(--day-box-shadow);
+    background-color: white;
+    border: 1px solid var(--day-border-color);
+    border-radius: 5px;
+}
+
+.nav-button:hover {
+    background-color: var(--background-color);
+}
+
+.content-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: 1px solid var(--day-border-color);
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex: 1;
+    background-color: var(--background-color);
+}
+
+.day {
+    background-color: var(--day-background-color);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--day-border-color);
+    border-left: none;
+    border-bottom: none;
+    box-shadow: var(--day-box-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.day header {
+    box-sizing: border-box;
+    font-size: larger;
+    font-weight: var(--header-font-weight);
+    border-bottom: var(--header-border-bottom);
+    margin-bottom: var(--header-margin-bottom);
+    padding-bottom: var(--header-padding-bottom);
+    text-align: center;
+    height: 30px;
+}
+
+.day ul {
+    list-style-type: none;
+    margin: var(--day-padding);
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--calendar-gap);
+}
+
+.day ul li, .day ul event-card {
+    padding: var(--list-item-padding);
+    border: var(--list-item-border);
+    border-radius: var(--list-item-border-radius);
+    background-color: var(--list-item-background-color);
+}
+
+.event-time {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: x-small;
+}
+
+.event-title {
+    font-weight: var(--event-title-font-weight);
+    margin-top: 15px;
+}
+
+.event-description {
+    margin-top: var(--event-description-margin-top);
+}
+
+.event-item, event-card {
+    position: relative;
+    padding: 20px;
+}
+
+.event-completed {
+    display: none;
+}

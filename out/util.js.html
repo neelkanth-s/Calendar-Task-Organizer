@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: util.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: util.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Converts a 24-hour time string to a 12-hour time string with AM/PM.
+ * 
+ * @function convertTo12Hour
+ * @param {string} time - The time string in 24-hour format (HH:MM)
+ * @returns {string|null} The time string in 12-hour format with AM/PM, or null if the input is invalid
+ */
+export function convertTo12Hour(time) {
+    if (time == null || time == undefined) {
+        return null;
+    }
+    let [hour, minute] = time.split(":");
+    if (
+        isNaN(hour) ||
+        isNaN(minute) ||
+        hour == undefined ||
+        minute == undefined
+    ) {
+        return null;
+    }
+    hour = parseInt(hour, 10);
+
+    let period = "AM";
+
+    if (hour === 0) {
+        hour = 12; // 12 AM
+    } else if (hour === 12) {
+        period = "PM"; // 12 PM
+    } else if (hour > 12) {
+        hour -= 12; // After 12 PM
+        period = "PM";
+    }
+
+    return `${hour}:${minute} ${period}`;
+}
+
+/**
+ * Generates a unique ID based on the current time.
+ * 
+ * @function getTimeBasedId
+ * @returns {string} A unique ID string
+ */
+export function getTimeBasedId() {
+    return String(new Date().getTime());
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EventCard.html">EventCard</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addChangeListener">addChangeListener</a></li><li><a href="global.html#addTask">addTask</a></li><li><a href="global.html#addTaskButtonClickListener">addTaskButtonClickListener</a></li><li><a href="global.html#addTaskCancelClickListener">addTaskCancelClickListener</a></li><li><a href="global.html#addTaskConfirmClickListener">addTaskConfirmClickListener</a></li><li><a href="global.html#changeListenerCallback">changeListenerCallback</a></li><li><a href="global.html#checkTasks">checkTasks</a></li><li><a href="global.html#checkToday">checkToday</a></li><li><a href="global.html#completedChangeListener">completedChangeListener</a></li><li><a href="global.html#convertTo12Hour">convertTo12Hour</a></li><li><a href="global.html#createDateEntry">createDateEntry</a></li><li><a href="global.html#curButtonClickHandler">curButtonClickHandler</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#deleteTaskCancelClickListener">deleteTaskCancelClickListener</a></li><li><a href="global.html#deleteTaskConfirmClickListener">deleteTaskConfirmClickListener</a></li><li><a href="global.html#editTaskCancelClickListener">editTaskCancelClickListener</a></li><li><a href="global.html#editTaskConfirmClickListener">editTaskConfirmClickListener</a></li><li><a href="global.html#endDateChangeListener">endDateChangeListener</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTasks">getTasks</a></li><li><a href="global.html#getTimeBasedId">getTimeBasedId</a></li><li><a href="global.html#hidePopupForDelete">hidePopupForDelete</a></li><li><a href="global.html#hidePopupForEdit">hidePopupForEdit</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#isStrongPassword">isStrongPassword</a></li><li><a href="global.html#makeCalendar">makeCalendar</a></li><li><a href="global.html#nextButtonClickHandler">nextButtonClickHandler</a></li><li><a href="global.html#notifyChangeListeners">notifyChangeListeners</a></li><li><a href="global.html#optionsButtonClickListener">optionsButtonClickListener</a></li><li><a href="global.html#prevButtonClickHandler">prevButtonClickHandler</a></li><li><a href="global.html#refreshTaskList">refreshTaskList</a></li><li><a href="global.html#saveTasks">saveTasks</a></li><li><a href="global.html#searchBarInputListener">searchBarInputListener</a></li><li><a href="global.html#showPopupForDelete">showPopupForDelete</a></li><li><a href="global.html#showPopupForEdit">showPopupForEdit</a></li><li><a href="global.html#sortOrderChangeListener">sortOrderChangeListener</a></li><li><a href="global.html#startDateChangeListener">startDateChangeListener</a></li><li><a href="global.html#switchToMonthlyButtonClickListener">switchToMonthlyButtonClickListener</a></li><li><a href="global.html#switchToWeeklyButtonClickListener">switchToWeeklyButtonClickListener</a></li><li><a href="global.html#taskCompletedCheckboxChangeListener">taskCompletedCheckboxChangeListener</a></li><li><a href="global.html#taskItemClickListener">taskItemClickListener</a></li><li><a href="global.html#toggleTaskCompletion">toggleTaskCompletion</a></li><li><a href="global.html#wipeCalendar">wipeCalendar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Jun 05 2024 00:23:52 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

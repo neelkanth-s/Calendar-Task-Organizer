@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: monthly-calendar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: monthly-calendar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { parser } from "./json-parser.js";
+import { showPopupForEdit, addChangeListener } from "./task-crud.js";
+
+const months = [
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
+
+let date = new Date();
+let month = date.getMonth();
+let year = date.getFullYear();
+
+window.addEventListener('DOMContentLoaded', init);
+
+/**
+ * Initializes the calendar and sets up event listeners for navigation buttons.
+ * 
+ * @name calendar-init
+ * @function init
+ */
+function init() {
+    /**
+     * Callback function for change listener to update the calendar.
+     * 
+     * @name changeListenerCallback
+     * @function
+     */
+    addChangeListener(() => {
+        wipeCalendar();
+        makeCalendar(month, year);
+    });
+
+    const prevButton = document.querySelector("#prev-button");
+    const curButton = document.querySelector("#cur-button");
+    const nextButton = document.querySelector("#next-button");
+
+    makeCalendar(month, year);
+
+    /**
+     * Event handler for the next button to move to the next month.
+     * 
+     * @name nextButtonClickHandler
+     * @function
+     */
+    nextButton.addEventListener("click", () => {
+      wipeCalendar();
+      month += 1;
+      if (month > 11) {
+        month = 0;
+        year += 1;
+      }
+      makeCalendar(month, year);
+    });
+    
+    /**
+     * Event handler for the previous button to move to the previous month.
+     * 
+     * @name prevButtonClickHandler
+     * @function
+     */
+    prevButton.addEventListener("click", () => {
+        wipeCalendar();
+        month -= 1;
+        if (month &lt; 0) {
+            month = 11;
+            year -= 1;
+        }
+        makeCalendar(month, year);
+    });
+    
+    /**
+     * Event handler for the current button to move to the current month.
+     * 
+     * @name curButtonClickHandler
+     * @function
+     */
+    curButton.addEventListener("click", () => {
+        wipeCalendar();
+        month = date.getMonth();
+        year = date.getFullYear();
+        makeCalendar(month, year);
+    });
+}
+
+/**
+ * Checks if the given date is today and adds an id to the element if true.
+ * 
+ * @function checkToday
+ * @param {HTMLElement} liElt - The list item element representing the date.
+ * @param {number} day - The day of the month.
+ * @param {number} month - The month (0-11).
+ * @param {number} year - The full year.
+ */
+function checkToday(liElt, day, month, year) {
+    if (
+        day === date.getDate() &amp;&amp;
+        month === date.getMonth() &amp;&amp;
+        year === date.getFullYear()
+    ) {
+        liElt.id = "today";
+    }
+}
+
+/**
+ * Checks for tasks on the given date and appends them to the provided list element.
+ * 
+ * @function checkTasks
+ * @param {HTMLElement} ulElt - The unordered list element to append tasks to.
+ * @param {number} day - The day of the month.
+ * @param {number} month - The month (0-11).
+ * @param {number} year - The full year.
+ */
+function checkTasks(ulElt, day, month, year) {
+    parser.getTasks().forEach((task) => {
+        const date = new Date(task["date"].replace(/-/g, '\/'));
+
+        if (
+            day === date.getDate() &amp;&amp;
+            month === date.getMonth() &amp;&amp;
+            year === date.getFullYear()
+        ) {
+            const liElt = document.createElement("li");
+            liElt.className = "task";
+            liElt.style.backgroundColor = task.color;
+            liElt.textContent = `${task["title"]}`;
+            liElt.addEventListener("click", () => {
+                showPopupForEdit(task.id);
+            });
+            ulElt.appendChild(liElt);
+        }
+    });
+}
+
+/**
+ * Creates a calendar date entry for the specified day, month, and year, and populates it with tasks.
+ * 
+ * @function createDateEntry
+ * @param {number} day - The day of the month.
+ * @param {number} month - The month (0-11).
+ * @param {number} year - The full year.
+ * @param {boolean} extra - Whether the date is an extra day (from the previous or next month).
+ */
+function createDateEntry(day, month, year, extra) {
+    const calendar = document.querySelector("#calendar");
+    const liElt = document.createElement("li");
+    liElt.tabIndex = "0";
+    const spanElt = document.createElement("span");
+    spanElt.className = "day-number";
+    liElt.appendChild(spanElt);
+    calendar.appendChild(liElt);
+    liElt.className = !extra ? "day" : "day-extra";
+    spanElt.textContent = `${day}`;
+
+    const ulElt = document.createElement("ul");
+    ulElt.className = "task-list";
+    liElt.appendChild(ulElt);
+    checkToday(liElt, day, month, year);
+    checkTasks(ulElt, day, month, year);
+}
+
+/**
+ * Generates the calendar for the specified month and year.
+ * given month and year, make the monthly view
+ * populate the calendar with buckets (li elements)
+ * 
+ * @function makeCalendar
+ * @param {number} month - The month (0-11).
+ * @param {number} year - The full year.
+ */
+function makeCalendar(month, year) {
+    const monthTitle = document.querySelector("#month-title");
+    monthTitle.textContent = `${months[month | 0]} ${year | 0}`;
+    const startDate = new Date(year, month, 1);
+    //returns the day of the week of the first day
+    const start = startDate.getDay();
+    //returns the last day number
+    const endDate = new Date(year, month + 1, 0).getDate();
+    //returns the day of the week of the last day
+    const end = new Date(year, month, endDate).getDay();
+    //returns the last months last day
+    const endDatePrev = new Date(year, month, 0).getDate();
+    //buckets for extra day at start
+    for (let i = start; i > 0; i--) {
+        const day = endDatePrev - i + 1;
+        var prevMo = new Date(startDate.getTime());
+        prevMo.setDate(0);
+        createDateEntry(day, prevMo.getMonth(), prevMo.getFullYear(), true);
+    }
+
+    //buckets for months days
+    for (let i = 1; i &lt; endDate + 1; i++) {
+        const day = i;
+        createDateEntry(day, month, year, false);
+    }
+
+    //buckets for extra days at end
+    for (let i = end; i &lt; 6; i++) {
+        const day = i - end + 1;
+        var nextMo = new Date(startDate.getTime());
+        nextMo.setMonth(nextMo.getMonth() + 1, 1);
+        createDateEntry(day, nextMo.getMonth(), nextMo.getFullYear(), true);
+    }
+}
+
+/**
+ * Clears the calendar by removing all day and day-extra elements.
+ * 
+ * @function wipeCalendar
+ */
+function wipeCalendar() {
+    let exdays = document.querySelectorAll(".day-extra");
+    let days = document.querySelectorAll(".day");
+
+    for (const exday of exdays) {
+        if (exday instanceof HTMLElement) {
+            exday.parentNode.removeChild(exday);
+        }
+    }
+    for (const day of days) {
+        if (day instanceof HTMLElement) {
+            day.parentNode.removeChild(day);
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EventCard.html">EventCard</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addChangeListener">addChangeListener</a></li><li><a href="global.html#addTask">addTask</a></li><li><a href="global.html#addTaskButtonClickListener">addTaskButtonClickListener</a></li><li><a href="global.html#addTaskCancelClickListener">addTaskCancelClickListener</a></li><li><a href="global.html#addTaskConfirmClickListener">addTaskConfirmClickListener</a></li><li><a href="global.html#changeListenerCallback">changeListenerCallback</a></li><li><a href="global.html#checkTasks">checkTasks</a></li><li><a href="global.html#checkToday">checkToday</a></li><li><a href="global.html#completedChangeListener">completedChangeListener</a></li><li><a href="global.html#convertTo12Hour">convertTo12Hour</a></li><li><a href="global.html#createDateEntry">createDateEntry</a></li><li><a href="global.html#curButtonClickHandler">curButtonClickHandler</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#deleteTaskCancelClickListener">deleteTaskCancelClickListener</a></li><li><a href="global.html#deleteTaskConfirmClickListener">deleteTaskConfirmClickListener</a></li><li><a href="global.html#editTaskCancelClickListener">editTaskCancelClickListener</a></li><li><a href="global.html#editTaskConfirmClickListener">editTaskConfirmClickListener</a></li><li><a href="global.html#endDateChangeListener">endDateChangeListener</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTasks">getTasks</a></li><li><a href="global.html#getTimeBasedId">getTimeBasedId</a></li><li><a href="global.html#hidePopupForDelete">hidePopupForDelete</a></li><li><a href="global.html#hidePopupForEdit">hidePopupForEdit</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#isStrongPassword">isStrongPassword</a></li><li><a href="global.html#makeCalendar">makeCalendar</a></li><li><a href="global.html#nextButtonClickHandler">nextButtonClickHandler</a></li><li><a href="global.html#notifyChangeListeners">notifyChangeListeners</a></li><li><a href="global.html#optionsButtonClickListener">optionsButtonClickListener</a></li><li><a href="global.html#prevButtonClickHandler">prevButtonClickHandler</a></li><li><a href="global.html#refreshTaskList">refreshTaskList</a></li><li><a href="global.html#saveTasks">saveTasks</a></li><li><a href="global.html#searchBarInputListener">searchBarInputListener</a></li><li><a href="global.html#showPopupForDelete">showPopupForDelete</a></li><li><a href="global.html#showPopupForEdit">showPopupForEdit</a></li><li><a href="global.html#sortOrderChangeListener">sortOrderChangeListener</a></li><li><a href="global.html#startDateChangeListener">startDateChangeListener</a></li><li><a href="global.html#switchToMonthlyButtonClickListener">switchToMonthlyButtonClickListener</a></li><li><a href="global.html#switchToWeeklyButtonClickListener">switchToWeeklyButtonClickListener</a></li><li><a href="global.html#taskCompletedCheckboxChangeListener">taskCompletedCheckboxChangeListener</a></li><li><a href="global.html#taskItemClickListener">taskItemClickListener</a></li><li><a href="global.html#toggleTaskCompletion">toggleTaskCompletion</a></li><li><a href="global.html#wipeCalendar">wipeCalendar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Jun 05 2024 00:23:52 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
