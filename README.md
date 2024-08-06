@@ -1,7 +1,13 @@
 # Task Manager Application
 
+## Walkthrough
+
 ## Demonstration
-<img width="1352" alt="Screenshot 2024-08-05 at 10 43 48 PM" src="https://github.com/user-attachments/assets/8e00e390-3bc7-494e-b950-0c50cba19782">
+
+Weekly View
+<img width="1352" alt="Screenshot 2024-08-05 at 10 43 48 PM" src="https://github.com/user-attachments/assets/8e00e390-3bc7-494e-b950-0c50cba19782">  
+
+Monthly View
 <img width="1352" alt="Screenshot 2024-08-05 at 10 44 01 PM" src="https://github.com/user-attachments/assets/f7f1a7c8-8239-4585-bffd-a6f6a98fbcbf">
 
 
