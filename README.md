@@ -1,5 +1,10 @@
 # Task Manager Application
 
+## Demonstration
+<img width="1352" alt="Screenshot 2024-08-05 at 10 43 48 PM" src="https://github.com/user-attachments/assets/8e00e390-3bc7-494e-b950-0c50cba19782">
+<img width="1352" alt="Screenshot 2024-08-05 at 10 44 01 PM" src="https://github.com/user-attachments/assets/f7f1a7c8-8239-4585-bffd-a6f6a98fbcbf">
+
+
 How to run:
 
 `npm install` to install all dependencies
@@ -49,34 +54,4 @@ Project status and work:
 [![Codacy Coverage Badge](https://app.codacy.com/project/badge/Coverage/a35b12c515d74f70811350a600bf47b3)](https://app.codacy.com/gh/cse110-sp24-group16/cse110-sp24-group16/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 [![Codacy Quality Badge](https://app.codacy.com/project/badge/Grade/a35b12c515d74f70811350a600bf47b3)](https://app.codacy.com/gh/cse110-sp24-group16/cse110-sp24-group16/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-
-### Application usage
-
-Weekly task-list view is the main thing user sees when they launch the app.
-
-![Image](./specs/screenshots/screen-weekly.png)
-
-View all upcoming tasks, add new events, check out neighbouring weeks.
-
-Sidebar feature is very useful to see nearest deadline and incomplete tasks as a list.
-
-User has options on what parameter to sort tasks on the sidebar by: Importance or Due date, can also choose the timeframe for the tasks to show on the taskbar.
-
-![Image](./specs/screenshots/taskbar-sorting-opts.png)
-
-User can also transition to monthly view to checkout past completed tasks and make journal entries about their experience.
-
-![Image](./specs/screenshots/screen-monthly.png)
-
-User can view/add/edit the daily journal for any day from here. If journal icon is clicked on a certain day, the journal interface show up.
-
-![Image](./specs/screenshots/journaling-popup.png)
-
-From any view user can add, edit, read, or delete the task, i.e. has full CRUD functionality.
-
-![Image](./specs/screenshots/create-task.png)
-
-![Image](./specs/screenshots/edit-task.png)
-
-![Image](./specs/screenshots/delete-task.png)
 
