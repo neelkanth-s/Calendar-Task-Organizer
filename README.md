@@ -3,7 +3,7 @@
 ## Walkthrough Video
 https://www.youtube.com/watch?v=K0b2Gsd-Vx4  
 
-## Demonstration
+## Demonstration Views
 
 Weekly View
 <img width="1352" alt="Screenshot 2024-08-05 at 10 43 48 PM" src="https://github.com/user-attachments/assets/8e00e390-3bc7-494e-b950-0c50cba19782">  
